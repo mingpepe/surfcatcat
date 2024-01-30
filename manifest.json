@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "Surfcatcat",
+    "version": "1.0",
+    "description": "Content scripts for cat to surf",
+    "permissions": [
+        "activeTab"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www3.nhk.or.jp/news/easy/*"
+            ],
+            "js": [
+                "src/nhk.js"
+            ]
+        }
+    ]
+}
