@@ -44,6 +44,15 @@
             "js": [
                 "src/mozilla.js"
             ]
+        },
+        {
+            "matches": [
+                "https://www.techbang.com/*"
+            ],
+            "js": [
+                "src/techbang.js"
+            ],
+            "run_at": "document_start"
         }
     ]
 }
