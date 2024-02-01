@@ -4,8 +4,12 @@
     "version": "1.0",
     "description": "Content scripts for cat to surf",
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "tabs"
     ],
+    "background": {
+        "service_worker": "src/background.js"
+    },
     "content_scripts": [
         {
             "matches": [
@@ -24,6 +28,22 @@
             ],
             "run_at": "document_start",
             "world": "MAIN"
+        },
+        {
+            "matches": [
+                "https://learn.microsoft.com/zh-tw/*"
+            ],
+            "js": [
+                "src/microsoft.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://developer.mozilla.org/zh-TW*"
+            ],
+            "js": [
+                "src/mozilla.js"
+            ]
         }
     ]
 }
