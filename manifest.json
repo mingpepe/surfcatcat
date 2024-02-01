@@ -14,6 +14,16 @@
             "js": [
                 "src/nhk.js"
             ]
+        },
+        {
+            "matches": [
+                "*://www.youtube.com/*"
+            ],
+            "js": [
+                "src/youtube.js"
+            ],
+            "run_at": "document_start",
+            "world": "MAIN"
         }
     ]
 }
