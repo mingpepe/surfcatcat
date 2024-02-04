@@ -26,9 +26,9 @@ const array = [
     'https://mychiaohu.benesse.com.tw/ericDvd/03/022410',
     'https://mychiaohu.benesse.com.tw/ericDvd/03/022411',
     'https://mychiaohu.benesse.com.tw/ericDvd/03/022412',
-]
+];
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
     let index = array.indexOf(document.URL);
     if (index === -1) {
         console.log('Fail to find index of current url');
@@ -44,7 +44,7 @@ document.addEventListener('keydown', function(event) {
             }
             break;
         case 'n':
-            if (index === array.length -1) {
+            if (index === array.length - 1) {
                 index = 0;
             } else {
                 index++;

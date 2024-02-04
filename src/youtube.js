@@ -24,9 +24,8 @@ function main(retryCnt) {
     }
     if (!logo || !player || !video) {
         if (retryCnt > 0) {
-            setTimeout( () => main(--retryCnt), 1000);
-        }
-        else {
+            setTimeout(() => main(--retryCnt), 1000);
+        } else {
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'r') {
                     console.log('Manual restart');
@@ -47,29 +46,31 @@ function main(retryCnt) {
         const playbackRate = video.playbackRate;
         let value = null;
         if (event.key === 'w') {
-            value = (playbackRate + 0.1) < 16 ? playbackRate + 0.1 : 16;
+            value = playbackRate + 0.1 < 16 ? playbackRate + 0.1 : 16;
         } else if (event.key === 'q') {
-            value = (playbackRate - 0.1) > 1 ? playbackRate - 0.1 : 1;
+            value = playbackRate - 0.1 > 1 ? playbackRate - 0.1 : 1;
         } else if (event.key == 'p') {
-            value = (playbackRate + 0.5) < 16 ? playbackRate + 0.5 : 16;
+            value = playbackRate + 0.5 < 16 ? playbackRate + 0.5 : 16;
         } else if (event.key == 'o') {
-            value = (playbackRate - 0.5) > 1 ? playbackRate - 0.5 : 1;
+            value = playbackRate - 0.5 > 1 ? playbackRate - 0.5 : 1;
         }
         if (value) {
             player.setPlaybackRate(value);
             video.playbackRate = value;
             updatePlaybackRate();
 
-            const wrapper = document.getElementsByClassName('ytp-bezel-text-wrapper')[0];
+            const wrapper = document.getElementsByClassName(
+                'ytp-bezel-text-wrapper',
+            )[0];
             wrapper.childNodes[0].textContent = value.toFixed(2);
             wrapper.parentNode.classList.remove('ytp-bezel-text-hide');
-            wrapper.parentNode.style="display:block;";
+            wrapper.parentNode.style = 'display:block;';
             if (timeoutID) {
                 clearTimeout(timeoutID);
             }
             timeoutID = setTimeout(() => {
                 wrapper.parentNode.classList.add('ytp-bezel-text-hide');
-                wrapper.parentNode.style="display:none;";
+                wrapper.parentNode.style = 'display:none;';
                 timeoutID = undefined;
             }, 300);
         }
