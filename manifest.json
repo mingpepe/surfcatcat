@@ -54,6 +54,14 @@
                 "src/techbang.js"
             ],
             "run_at": "document_start"
+        },
+        {
+            "matches": [
+                "https://mychiaohu.benesse.com.tw/ericDvd/*"
+            ],
+            "js": [
+                "src/chiaohu.js"
+            ]
         }
     ]
 }
