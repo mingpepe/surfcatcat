@@ -9,7 +9,7 @@ function clickToggleButton() {
 }
 
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'c') {
+    if (event.key === 'c' && !event.ctrlKey) {
         clickToggleButton();
     }
 });
