@@ -50,9 +50,7 @@ document.addEventListener('keydown', (event) => {
 
 document.addEventListener('DOMContentLoaded', function () {
     const a = document.getElementById('js-article-body');
-    console.log(a);
     var paragraphs = a.querySelectorAll('p');
-    console.log(paragraphs);
     paragraphs.forEach((p) => {
         const btn = document.createElement('button');
         btn.textContent = 'Read';
