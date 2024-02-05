@@ -1,3 +1,7 @@
+var rate = 1;
+var callbacks = [];
+var wholeTextContent = '';
+
 function clickToggleButton() {
     const button = document.querySelector(
         '.tool-buttons__item.btn.toggle-ruby.js-toggle-ruby.hide-sp',
@@ -9,9 +13,9 @@ function clickToggleButton() {
     }
 }
 
-var rate = 1;
-var callbacks = [];
-var wholeTextContent = '';
+function registerRateUpdateEvent(f) {
+    callbacks.push(f);
+}
 
 function readRateControl(key) {
     switch (key) {
@@ -42,6 +46,21 @@ function copyToClipboard(text) {
     document.body.removeChild(textarea);
 }
 
+function extractTextWithoutRt(element) {
+    let text = '';
+    element.childNodes.forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+            text += child.textContent;
+        } else if (
+            child.nodeType === Node.ELEMENT_NODE &&
+            child.tagName.toLowerCase() !== 'rt'
+        ) {
+            text += extractTextWithoutRt(child);
+        }
+    });
+    return text;
+}
+
 document.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'c':
@@ -63,25 +82,6 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-function registerRateEvent(f) {
-    callbacks.push(f);
-}
-
-function extractTextWithoutRt(element) {
-    let text = '';
-    element.childNodes.forEach((child) => {
-        if (child.nodeType === Node.TEXT_NODE) {
-            text += child.textContent;
-        } else if (
-            child.nodeType === Node.ELEMENT_NODE &&
-            child.tagName.toLowerCase() !== 'rt'
-        ) {
-            text += extractTextWithoutRt(child);
-        }
-    });
-    return text;
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     const a = document.getElementById('js-article-body');
     var paragraphs = a.querySelectorAll('p');
@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (p.parentElement.style.background == 'rgb(245, 245, 220)') {
             return;
         }
+
         const content = extractTextWithoutRt(p);
         const btn = document.createElement('button');
         btn.textContent = 'Read';
@@ -100,14 +101,13 @@ document.addEventListener('DOMContentLoaded', function () {
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         });
+        p.parentElement.insertBefore(btn, p);
 
         const label = document.createElement('p');
         label.textContent = `rate: ${rate}`;
-        registerRateEvent((rate) => {
+        registerRateUpdateEvent((rate) => {
             label.textContent = `rate: ${rate.toFixed(1)}`;
         });
-
-        p.parentElement.insertBefore(btn, p);
         p.parentElement.insertBefore(label, p);
 
         wholeTextContent += content;
