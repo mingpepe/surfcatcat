@@ -67,16 +67,34 @@ function registerRateEvent(f) {
     callbacks.push(f);
 }
 
+function extractTextWithoutRt(element) {
+    let text = '';
+    element.childNodes.forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+            text += child.textContent;
+        } else if (
+            child.nodeType === Node.ELEMENT_NODE &&
+            child.tagName.toLowerCase() !== 'rt'
+        ) {
+            text += extractTextWithoutRt(child);
+        }
+    });
+    return text;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-    clickToggleButton();
     const a = document.getElementById('js-article-body');
     var paragraphs = a.querySelectorAll('p');
     paragraphs.forEach((p) => {
+        // Do not include the last <p>
+        if (p.parentElement.style.background == 'rgb(245, 245, 220)') {
+            return;
+        }
+        const content = extractTextWithoutRt(p);
         const btn = document.createElement('button');
         btn.textContent = 'Read';
         btn.addEventListener('click', function () {
-            var textToSpeak = p.textContent.trim();
-            var utterance = new SpeechSynthesisUtterance(textToSpeak);
+            var utterance = new SpeechSynthesisUtterance(content);
             utterance.lang = 'ja-JP';
             utterance.rate = rate;
             window.speechSynthesis.cancel();
@@ -92,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
         p.parentElement.insertBefore(btn, p);
         p.parentElement.insertBefore(label, p);
 
-        wholeTextContent += p.textContent;
+        wholeTextContent += content;
     });
-    clickToggleButton();
 });
