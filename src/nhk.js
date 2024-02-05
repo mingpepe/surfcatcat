@@ -11,6 +11,7 @@ function clickToggleButton() {
 
 var rate = 1;
 var callbacks = [];
+var wholeTextContent = '';
 
 function readRateControl(key) {
     switch (key) {
@@ -32,6 +33,15 @@ function readRateControl(key) {
     }
 }
 
+function copyToClipboard(text) {
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+}
+
 document.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'c':
@@ -44,6 +54,9 @@ document.addEventListener('keydown', (event) => {
         case 'o':
         case 'p':
             readRateControl(event.key);
+            break;
+        case 's':
+            copyToClipboard(wholeTextContent);
             break;
         default:
             break;
@@ -77,5 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         p.parentElement.insertBefore(btn, p);
         p.parentElement.insertBefore(label, p);
+
+        wholeTextContent += p.textContent;
     });
 });
