@@ -10,6 +10,7 @@ function clickToggleButton() {
 }
 
 var rate = 1;
+var callbacks = [];
 
 function readRateControl(key) {
     switch (key) {
@@ -25,6 +26,9 @@ function readRateControl(key) {
         case 'p':
             rate = Math.min(1, rate + 0.5);
             break;
+    }
+    for (let i = 0; i < callbacks.length; i++) {
+        callbacks[i](rate);
     }
 }
 
@@ -48,6 +52,10 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
+function registerRateEvent(f) {
+    callbacks.push(f);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const a = document.getElementById('js-article-body');
     var paragraphs = a.querySelectorAll('p');
@@ -62,6 +70,14 @@ document.addEventListener('DOMContentLoaded', function () {
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         });
+
+        const label = document.createElement('p');
+        label.textContent = `rate: ${rate}`;
+        registerRateEvent((rate) => {
+            label.textContent = `rate: ${rate.toFixed(1)}`;
+        });
+
         p.parentElement.insertBefore(btn, p);
+        p.parentElement.insertBefore(label, p);
     });
 });
