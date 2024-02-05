@@ -48,8 +48,6 @@ document.addEventListener('keydown', (event) => {
         default:
             break;
     }
-    if (event.key === 'c' && !event.ctrlKey) {
-    }
 });
 
 function registerRateEvent(f) {
