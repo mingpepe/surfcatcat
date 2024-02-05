@@ -7,6 +7,12 @@
     "background": {
         "service_worker": "src/background.js"
     },
+    "icons": {
+        "16": "surf_cat_16.png",
+        "32": "surf_cat_32.png",
+        "48": "surf_cat_48.png",
+        "128": "surf_cat_128.png"
+    },
     "content_scripts": [
         {
             "matches": ["https://www3.nhk.or.jp/news/easy/*"],
