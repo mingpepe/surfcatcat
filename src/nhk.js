@@ -68,6 +68,7 @@ function registerRateEvent(f) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    clickToggleButton();
     const a = document.getElementById('js-article-body');
     var paragraphs = a.querySelectorAll('p');
     paragraphs.forEach((p) => {
@@ -93,4 +94,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
         wholeTextContent += p.textContent;
     });
+    clickToggleButton();
 });
