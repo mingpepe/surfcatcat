@@ -110,6 +110,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         p.parentElement.insertBefore(label, p);
 
+        const copyBtn = document.createElement('button');
+        copyBtn.textContent = 'Copy';
+        copyBtn.addEventListener('click', function () {
+            copyToClipboard(content);
+        });
+        p.parentElement.insertBefore(copyBtn, p);
+
         wholeTextContent += content;
     });
 });
