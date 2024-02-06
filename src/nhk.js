@@ -92,30 +92,43 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const content = extractTextWithoutRt(p);
-        const btn = document.createElement('button');
-        btn.textContent = 'Read';
-        btn.addEventListener('click', function () {
+        const readBtn = document.createElement('button');
+        readBtn.textContent = 'Read';
+        readBtn.addEventListener('click', function () {
             var utterance = new SpeechSynthesisUtterance(content);
             utterance.lang = 'ja-JP';
             utterance.rate = rate;
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         });
-        p.parentElement.insertBefore(btn, p);
-
-        const label = document.createElement('p');
-        label.textContent = `rate: ${rate}`;
-        registerRateUpdateEvent((rate) => {
-            label.textContent = `rate: ${rate.toFixed(1)}`;
-        });
-        p.parentElement.insertBefore(label, p);
+        readBtn.style.width = '70px';
+        readBtn.style.height = '30px';
 
         const copyBtn = document.createElement('button');
         copyBtn.textContent = 'Copy';
         copyBtn.addEventListener('click', function () {
             copyToClipboard(content);
         });
-        p.parentElement.insertBefore(copyBtn, p);
+        copyBtn.style.width = '70px';
+        copyBtn.style.height = '30px';
+
+        const label = document.createElement('p');
+        label.textContent = `rate: ${rate}`;
+        registerRateUpdateEvent((rate) => {
+            label.textContent = `rate: ${rate.toFixed(1)}`;
+        });
+        label.style.width = '100px';
+        label.style.height = '30px';
+
+        var container = document.createElement('div');
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = '80px 80px 80px';
+        container.style.gap = '10px';
+        container.appendChild(readBtn);
+
+        container.appendChild(copyBtn);
+        container.appendChild(label);
+        p.parentElement.insertBefore(container, p);
 
         wholeTextContent += content;
     });
