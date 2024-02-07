@@ -41,6 +41,10 @@
         {
             "matches": ["https://mychiaohu.benesse.com.tw/ericDvd/*"],
             "js": ["src/chiaohu.js"]
+        },
+        {
+            "matches": ["https://udn.com/news/story/*"],
+            "js": ["src/udn.js"]
         }
     ]
 }
