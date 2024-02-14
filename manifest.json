@@ -45,6 +45,10 @@
         {
             "matches": ["https://udn.com/news/story/*"],
             "js": ["src/udn.js"]
+        },
+        {
+            "matches": ["https://money.udn.com/money/story/*"],
+            "js": ["src/money_udn.js"]
         }
     ]
 }
