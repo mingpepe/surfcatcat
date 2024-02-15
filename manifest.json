@@ -49,6 +49,10 @@
         {
             "matches": ["https://money.udn.com/money/story/*"],
             "js": ["src/money_udn.js"]
+        },
+        {
+            "matches": ["https://news.cnyes.com/news/*"],
+            "js": ["src/news_cnyes.js"]
         }
     ]
 }
