@@ -84,6 +84,10 @@ document.addEventListener('keydown', (event) => {
 
 document.addEventListener('DOMContentLoaded', function () {
     const a = document.getElementById('js-article-body');
+    if (!a) {
+        console.log('js-article-body not found');
+        return;
+    }
     var paragraphs = a.querySelectorAll('p');
     paragraphs.forEach((p) => {
         // Do not include the last <p>
