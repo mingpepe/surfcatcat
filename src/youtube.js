@@ -39,6 +39,9 @@ function main(retryCnt) {
     logo.appendChild(label);
 
     document.addEventListener('keydown', (event) => {
+        if (event.ctrlKey) {
+            return;
+        }
         if (event.key == '>' || event.key == '<') {
             updatePlaybackRate();
             return;
