@@ -77,6 +77,8 @@ document.addEventListener('keydown', (event) => {
         case 's':
             copyToClipboard(wholeTextContent);
             break;
+        case 'x':
+            window.speechSynthesis.cancel();
         default:
             break;
     }
