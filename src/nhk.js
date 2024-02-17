@@ -128,6 +128,7 @@ document.addEventListener('keydown', (event) => {
             break;
         case 'x':
             window.speechSynthesis.cancel();
+            break;
         case 'h':
             helperPanel.show();
             break;
