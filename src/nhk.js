@@ -1,5 +1,49 @@
-var rate = 1;
-var callbacks = [];
+class RateWrapper {
+    constructor() {
+        this._rate = 1;
+        this._listeners = [];
+    }
+
+    init() {
+        let self = this;
+        chrome.runtime.sendMessage('GET_NHK_SPEECH_RATE', function (response) {
+            if (response.data && typeof response.data === 'number') {
+                self._rate = response.data;
+                console.log(`Get speech rate: ${response.data}`);
+                self._notifyListeners();
+            } else {
+                console.log('Get incorrect speech rate');
+            }
+        });
+    }
+
+    addListener(listener) {
+        this._listeners.push(listener);
+    }
+
+    get rate() {
+        return this._rate;
+    }
+
+    set rate(rate) {
+        chrome.runtime.sendMessage({
+            key: 'SET_NHK_SPEECH_RATE',
+            value: rate,
+        });
+        this._rate = rate;
+        this._notifyListeners();
+    }
+
+    _notifyListeners() {
+        this._listeners.forEach((listener) => {
+            listener(this._rate);
+        });
+    }
+}
+
+const wrapper = new RateWrapper();
+wrapper.init();
+
 var wholeTextContent = '';
 
 function clickToggleButton() {
@@ -13,27 +57,20 @@ function clickToggleButton() {
     }
 }
 
-function registerRateUpdateEvent(f) {
-    callbacks.push(f);
-}
-
 function readRateControl(key) {
     switch (key) {
         case 'q':
-            rate = Math.max(0.1, rate - 0.1);
+            wrapper.rate = Math.max(0.1, wrapper.rate - 0.1);
             break;
         case 'w':
-            rate = Math.min(1, rate + 0.1);
+            wrapper.rate = Math.min(1, wrapper.rate + 0.1);
             break;
         case 'o':
-            rate = Math.max(0.1, rate - 0.5);
+            wrapper.rate = Math.max(0.1, wrapper.rate - 0.5);
             break;
         case 'p':
-            rate = Math.min(1, rate + 0.5);
+            wrapper.rate = Math.min(1, wrapper.rate + 0.5);
             break;
-    }
-    for (let i = 0; i < callbacks.length; i++) {
-        callbacks[i](rate);
     }
 }
 
@@ -103,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
         readBtn.addEventListener('click', function () {
             var utterance = new SpeechSynthesisUtterance(content);
             utterance.lang = 'ja-JP';
-            utterance.rate = rate;
+            utterance.rate = wrapper.rate;
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         });
@@ -119,8 +156,8 @@ document.addEventListener('DOMContentLoaded', function () {
         copyBtn.style.height = '30px';
 
         const label = document.createElement('p');
-        label.textContent = `rate: ${rate}`;
-        registerRateUpdateEvent((rate) => {
+        label.textContent = `rate: ${wrapper.rate.toFixed(1)}`;
+        wrapper.addListener((rate) => {
             label.textContent = `rate: ${rate.toFixed(1)}`;
         });
         label.style.width = '100px';

@@ -3,7 +3,7 @@
     "name": "Surfcatcat",
     "version": "1.0",
     "description": "Content scripts for cat to surf",
-    "permissions": ["activeTab", "tabs"],
+    "permissions": ["activeTab", "tabs", "storage"],
     "background": {
         "service_worker": "src/background.js"
     },
