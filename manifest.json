@@ -16,7 +16,7 @@
     "content_scripts": [
         {
             "matches": ["https://www3.nhk.or.jp/news/easy/*"],
-            "js": ["src/nhk.js"],
+            "js": ["src/util/message_panel.js", "src/nhk.js"],
             "run_at": "document_start"
         },
         {
