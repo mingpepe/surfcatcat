@@ -18,6 +18,7 @@ class MessagePanel {
             'rgba(0, 0, 0, ' + panelOpacity + ')';
         this._panel.style.color = 'lime';
         this._panel.style.zIndex = '9999';
+        this._panel.style.fontFamily = 'Courier New';
         this._panel.innerHTML = message;
     }
 
