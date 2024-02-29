@@ -53,6 +53,10 @@
         {
             "matches": ["https://news.cnyes.com/news/*"],
             "js": ["src/news_cnyes.js"]
+        },
+        {
+            "matches": ["https://chat.openai.com/c/*"],
+            "js": ["src/chatgpt.js"]
         }
     ]
 }
