@@ -106,9 +106,11 @@ const helpMsg = `
     p: rate + 0.5<br>
     s: copy content to clipboard<br>
     x: force stop speech<br>
+    1~6: select voice source
 `;
 
 const helperPanel = new MessagePanel(helpMsg);
+let voicePtr = 0;
 
 document.addEventListener('keydown', (event) => {
     switch (event.key) {
@@ -133,6 +135,10 @@ document.addEventListener('keydown', (event) => {
             helperPanel.show();
             break;
         default:
+            if ('1' <= event.key && event.key <= 6) {
+                voicePtr = event.key - '1';
+                console.log(`Set voicePtr to ${voicePtr}`);
+            }
             break;
     }
 });
@@ -162,9 +168,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const readBtn = document.createElement('button');
         readBtn.textContent = 'Read';
         readBtn.addEventListener('click', function () {
+            const voices = window.speechSynthesis.getVoices();
+            const japaneseVoices = voices.filter((voice) => {
+                return voice.voiceURI.includes('Japan');
+            });
+
             var utterance = new SpeechSynthesisUtterance(content);
             utterance.lang = 'ja-JP';
             utterance.rate = wrapper.rate;
+            if (japaneseVoices.length - 1 >= voicePtr) {
+                utterance.voice = japaneseVoices[voicePtr];
+            }
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         });
