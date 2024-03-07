@@ -95,7 +95,7 @@ function extractTextWithoutRt(element) {
             text += extractTextWithoutRt(child);
         }
     });
-    return text;
+    return text.trim();
 }
 
 const helpMsg = `
@@ -151,66 +151,77 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
+function handle(element) {
+    const content = extractTextWithoutRt(element);
+    const readBtn = document.createElement('button');
+    readBtn.textContent = 'Read';
+    readBtn.addEventListener('click', function () {
+        const voices = window.speechSynthesis.getVoices();
+        const japaneseVoices = voices.filter((voice) => {
+            return voice.voiceURI.includes('Japan');
+        });
+
+        var utterance = new SpeechSynthesisUtterance(content);
+        utterance.lang = 'ja-JP';
+        utterance.rate = wrapper.rate;
+        if (japaneseVoices.length - 1 >= voicePtr) {
+            utterance.voice = japaneseVoices[voicePtr];
+        }
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+    });
+    readBtn.style.width = '70px';
+    readBtn.style.height = '30px';
+
+    const copyBtn = document.createElement('button');
+    copyBtn.textContent = 'Copy';
+    copyBtn.addEventListener('click', function () {
+        copyToClipboard(content);
+    });
+    copyBtn.style.width = '70px';
+    copyBtn.style.height = '30px';
+
+    const label = document.createElement('p');
+    label.textContent = `rate: ${wrapper.rate.toFixed(1)}`;
+    wrapper.addListener((rate) => {
+        label.textContent = `rate: ${rate.toFixed(1)}`;
+    });
+    label.style.width = '100px';
+    label.style.height = '30px';
+
+    var container = document.createElement('div');
+    container.style.display = 'grid';
+    container.style.gridTemplateColumns = '80px 80px 80px';
+    container.style.gap = '10px';
+    container.appendChild(readBtn);
+
+    container.appendChild(copyBtn);
+    container.appendChild(label);
+    element.parentElement.insertBefore(container, element);
+
+    wholeTextContent += content;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-    const a = document.getElementById('js-article-body');
-    if (!a) {
+    const title = document.querySelector('.article-main__title');
+    if (title) {
+        handle(title);
+        wholeTextContent += '\n';
+    } else {
+        console.log('class article-main__title not found');
+    }
+
+    const body = document.getElementById('js-article-body');
+    if (!body) {
         console.log('js-article-body not found');
         return;
     }
-    var paragraphs = a.querySelectorAll('p');
+    var paragraphs = body.querySelectorAll('p');
     paragraphs.forEach((p) => {
         // Do not include the last <p>
         if (p.parentElement.style.background == 'rgb(245, 245, 220)') {
             return;
         }
-
-        const content = extractTextWithoutRt(p);
-        const readBtn = document.createElement('button');
-        readBtn.textContent = 'Read';
-        readBtn.addEventListener('click', function () {
-            const voices = window.speechSynthesis.getVoices();
-            const japaneseVoices = voices.filter((voice) => {
-                return voice.voiceURI.includes('Japan');
-            });
-
-            var utterance = new SpeechSynthesisUtterance(content);
-            utterance.lang = 'ja-JP';
-            utterance.rate = wrapper.rate;
-            if (japaneseVoices.length - 1 >= voicePtr) {
-                utterance.voice = japaneseVoices[voicePtr];
-            }
-            window.speechSynthesis.cancel();
-            window.speechSynthesis.speak(utterance);
-        });
-        readBtn.style.width = '70px';
-        readBtn.style.height = '30px';
-
-        const copyBtn = document.createElement('button');
-        copyBtn.textContent = 'Copy';
-        copyBtn.addEventListener('click', function () {
-            copyToClipboard(content);
-        });
-        copyBtn.style.width = '70px';
-        copyBtn.style.height = '30px';
-
-        const label = document.createElement('p');
-        label.textContent = `rate: ${wrapper.rate.toFixed(1)}`;
-        wrapper.addListener((rate) => {
-            label.textContent = `rate: ${rate.toFixed(1)}`;
-        });
-        label.style.width = '100px';
-        label.style.height = '30px';
-
-        var container = document.createElement('div');
-        container.style.display = 'grid';
-        container.style.gridTemplateColumns = '80px 80px 80px';
-        container.style.gap = '10px';
-        container.appendChild(readBtn);
-
-        container.appendChild(copyBtn);
-        container.appendChild(label);
-        p.parentElement.insertBefore(container, p);
-
-        wholeTextContent += content;
+        handle(p);
     });
 });
