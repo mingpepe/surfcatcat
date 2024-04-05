@@ -203,7 +203,10 @@ function handle(element) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const title = document.querySelector('.article-main__title');
+    let title = document.querySelector('.article-title');
+    if (!title) {
+        title = document.querySelector('.article-main__title');
+    }
     if (title) {
         handle(title);
         wholeTextContent += '\n';
