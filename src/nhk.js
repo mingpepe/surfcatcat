@@ -47,9 +47,14 @@ wrapper.init();
 var wholeTextContent = '';
 
 function clickToggleButton() {
-    const button = document.querySelector(
+    let button = document.querySelector(
         '.tool-buttons__item.btn.toggle-ruby.js-toggle-ruby.hide-sp',
     );
+    if (!button) {
+        button = document.querySelector(
+            '.article-buttons__ruby.js-toggle-ruby.--sp',
+        );
+    }
     if (button) {
         button.click();
     } else {
