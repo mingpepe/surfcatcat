@@ -117,6 +117,30 @@ const helpMsg = `
 const helperPanel = new MessagePanel(helpMsg);
 let voicePtr = 0;
 
+function pressBtnOnVoicePanel(selector) {
+    const iframes = document.querySelectorAll('iframe');
+    if (!iframes) {
+        console.log('No iframe exist');
+        return;
+    }
+
+    const targetIframe =
+        iframes[iframes.length - 1].contentWindow.document.getElementById(
+            '_apIfr0',
+        );
+    if (!targetIframe) {
+        console.log('target iframe not found');
+        return;
+    }
+
+    const btn = targetIframe.contentWindow.document.querySelector(selector);
+    if (!btn) {
+        console.log('btn not found');
+        return;
+    }
+    btn.click();
+}
+
 document.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'c':
@@ -138,6 +162,15 @@ document.addEventListener('keydown', (event) => {
             break;
         case 'h':
             helperPanel.show();
+            break;
+        case 'ArrowLeft':
+            pressBtnOnVoicePanel('.vjs-skip.vjs-skip-bwd');
+            break;
+        case 'ArrowRight':
+            pressBtnOnVoicePanel('.vjs-skip.vjs-skip-fwd');
+            break;
+        case 'k':
+            pressBtnOnVoicePanel('.vjs-play-control.vjs-control.vjs-button');
             break;
         default:
             if ('1' <= event.key && event.key <= 6) {
