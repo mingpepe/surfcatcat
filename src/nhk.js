@@ -193,6 +193,8 @@ function handle(element) {
     });
     label.style.width = '100px';
     label.style.height = '30px';
+    label.style.margin = '0px';
+    label.style.lineHeight = '30px';
 
     var container = document.createElement('div');
     container.style.display = 'grid';
