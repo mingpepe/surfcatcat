@@ -111,6 +111,7 @@ const helpMsg = `
     p: rate + 0.5<br>
     s: copy content to clipboard<br>
     x: force stop speech<br>
+    t: toggle image display
     1~6: select voice source
 `;
 
@@ -139,6 +140,21 @@ function pressBtnOnVoicePanel(selector) {
         return;
     }
     btn.click();
+}
+
+let showImage = false;
+
+function toggleImageDisplay() {
+    var images = document.getElementsByTagName('img');
+
+    for (var i = 0; i < images.length; i++) {
+        if (showImage) {
+            images[i].style.display = '';
+        } else {
+            images[i].style.display = 'none';
+        }
+    }
+    showImage = !showImage;
 }
 
 document.addEventListener('keydown', (event) => {
@@ -171,6 +187,9 @@ document.addEventListener('keydown', (event) => {
             break;
         case 'k':
             pressBtnOnVoicePanel('.vjs-play-control.vjs-control.vjs-button');
+            break;
+        case 't':
+            toggleImageDisplay();
             break;
         default:
             if ('1' <= event.key && event.key <= 6) {
