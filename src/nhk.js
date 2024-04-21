@@ -111,7 +111,7 @@ const helpMsg = `
     p: rate + 0.5<br>
     s: copy content to clipboard<br>
     x: force stop speech<br>
-    t: toggle image display
+    t: toggle image display<br>
     1~6: select voice source
 `;
 
