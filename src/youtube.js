@@ -27,6 +27,7 @@ function main(retryCnt) {
             setTimeout(() => main(--retryCnt), 1000);
         } else {
             document.addEventListener('keydown', (event) => {
+                event.key = event.key.toLocaleLowerCase();
                 if (event.key === 'r') {
                     console.log('Manual restart');
                     main(0);
@@ -39,6 +40,7 @@ function main(retryCnt) {
     logo.appendChild(label);
 
     document.addEventListener('keydown', (event) => {
+        event.key = event.key.toLocaleLowerCase();
         if (event.ctrlKey) {
             return;
         }
