@@ -158,7 +158,7 @@ function toggleImageDisplay() {
 }
 
 document.addEventListener('keydown', (event) => {
-    switch (event.key) {
+    switch (event.key.toLocaleLowerCase()) {
         case 'c':
             if (!event.ctrlKey) {
                 clickToggleButton();
