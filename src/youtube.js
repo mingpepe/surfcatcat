@@ -27,8 +27,7 @@ function main(retryCnt) {
             setTimeout(() => main(--retryCnt), 1000);
         } else {
             document.addEventListener('keydown', (event) => {
-                event.key = event.key.toLocaleLowerCase();
-                if (event.key === 'r') {
+                if (event.key.toLowerCase() === 'r') {
                     console.log('Manual restart');
                     main(0);
                 }
@@ -40,23 +39,23 @@ function main(retryCnt) {
     logo.appendChild(label);
 
     document.addEventListener('keydown', (event) => {
-        event.key = event.key.toLocaleLowerCase();
+        const key = event.key.toLowerCase();
         if (event.ctrlKey) {
             return;
         }
-        if (event.key == '>' || event.key == '<') {
+        if (key == '>' || key == '<') {
             updatePlaybackRate();
             return;
         }
         const playbackRate = video.playbackRate;
         let value = null;
-        if (event.key === 'w') {
+        if (key === 'w') {
             value = playbackRate + 0.1 < 16 ? playbackRate + 0.1 : 16;
-        } else if (event.key === 'q') {
+        } else if (key === 'q') {
             value = playbackRate - 0.1 > 1 ? playbackRate - 0.1 : 1;
-        } else if (event.key == 'p') {
+        } else if (key == 'p') {
             value = playbackRate + 0.5 < 16 ? playbackRate + 0.5 : 16;
-        } else if (event.key == 'o') {
+        } else if (key == 'o') {
             value = playbackRate - 0.5 > 1 ? playbackRate - 0.5 : 1;
         }
         if (value) {
