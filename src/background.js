@@ -31,6 +31,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                     }
                 });
                 return true; // Indicate that the response will be sent asynchronously
+            case 'SHOW_MORE_GOOGLE_RESULT':
+                if (!sender.tab.url.includes('&num')) {
+                    chrome.tabs.update(sender.tab.id, {
+                        url: sender.tab.url + '&num=100',
+                    });
+                }
+                break;
             default:
                 console.log(`Unknown message: ${message}`);
                 break;

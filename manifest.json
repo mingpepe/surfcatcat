@@ -57,6 +57,10 @@
         {
             "matches": ["https://chat.openai.com/c/*"],
             "js": ["src/chatgpt.js"]
+        },
+        {
+            "matches": ["https://www.google.com/search?q*"],
+            "js": ["src/google_search.js"]
         }
     ]
 }
